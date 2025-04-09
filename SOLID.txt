@@ -1,0 +1,216 @@
+1STRING OPERATION
+
+#include <stdio.h>
+#include <string.h>
+#include <conio.h>
+VOID MAIN()
+{
+CHAR*STR1="BANGALORE";
+CHAR*STR2="UNIVERSITY";
+CLRSCR();
+PRINTF("\N STRING1=%S STRING2=%S/N",STR1,STR2);
+PRINTF("\N 1.LENGTH OF %S=%D",STR1,STRLEN(STR1));
+
+2A. GCD OF THREE NUMBERS
+
+#include <stdio.h>
+
+int gcd(int a, int b) {
+    return b == 0 ? a : gcd(b, a % b);
+}
+
+int main() {
+    int a, b, c;
+    printf("Enter three numbers: ");
+    scanf("%d %d %d", &a, &b, &c);
+    printf("GCD = %d\n", gcd(a, gcd(b, c)));
+    return 0;
+}
+
+3.ARRAY OPERATION
+
+#include <stdio.h>
+
+int main() {
+    int a[100], n = 5, i, pos = 2;
+
+    // Initial array
+    for (i = 0; i < n; i++) a[i] = i + 1;
+
+    // Insert 99 at pos 2
+    for (i = n; i > pos; i--) a[i] = a[i - 1];
+    a[pos] = 99;
+    n++;
+
+    // Delete at pos 3
+    for (i = 3; i < n - 1; i++) a[i] = a[i + 1];
+    n--;
+
+    // Display
+    for (i = 0; i < n; i++) printf("%d ", a[i]);
+
+    return 0;
+}
+
+4.WORKING OF STACK
+
+#include <stdio.h>
+#define S 5
+
+int main() {
+    int s[S], t = -1, c, v;
+    do {
+        printf("\n1.Push 2.Pop 3.Show 4.Exit: ");
+        scanf("%d", &c);
+        if (c == 1 && t < S - 1) scanf("%d", &s[++t]);
+        else if (c == 2 && t >= 0) printf("Popped: %d\n", s[t--]);
+        else if (c == 3)
+            for (int i = t; i >= 0; i--) printf("%d ", s[i]);
+        else if (c != 4) printf("Invalid/Overflow/Underflow\n");
+    } while (c != 4);
+    return 0;
+}
+
+5.WORKING OF QUEUE
+
+#include <stdio.h>
+#define S 5
+
+int main() {
+    int q[S], f = 0, r = -1, c, v;
+    do {
+        printf("\n1.Enqueue 2.Dequeue 3.Show 4.Exit: ");
+        scanf("%d", &c);
+        if (c == 1 && r < S - 1) scanf("%d", &q[++r]);
+        else if (c == 2 && f <= r) printf("Dequeued: %d\n", q[f++]);
+        else if (c == 3)
+            for (int i = f; i <= r; i++) printf("%d ", q[i]);
+        else if (c != 4) printf("Invalid/Overflow/Underflow\n");
+    } while (c != 4);
+    return 0;
+}
+
+6.SINGLY LINKED LIST
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct N { int d; struct N *n; } *h;
+
+void ins(int x) {
+    struct N *p = malloc(sizeof(struct N));
+    p->d = x; p->n = h; h = p;
+    printf("%d Inserted\n", x);
+}
+
+void del(int x) {
+    struct N **p = &h;
+    while (*p && (*p)->d != x) p = &(*p)->n;
+    if (*p) { struct N *t = *p; *p = t->n; free(t); printf("%d deleted\n", x); }
+}
+
+void show() {
+    printf("Linked List ");
+    for (struct N *t = h; t; t = t->n) printf("%d ", t->d);
+    printf("\n");
+}
+
+int main() {
+    ins(100); ins(80); ins(60); show();
+    del(70); del(40); ins(40); ins(20); show();
+}
+
+7.DOUBLY LINKED LIST
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct N { int d; struct N *p, *n; } *h = NULL, *t = NULL;
+
+void ins(int x) {
+    struct N *z = malloc(sizeof(struct N));
+    z->d = x; z->p = NULL; z->n = h;
+    if (h) h->p = z; else t = z;
+    h = z;
+}
+
+void show() {
+    struct N *c;
+    printf("In forward direction:\n");
+    for (c = h; c; c = c->n) printf("%d ", c->d);
+    printf("\nIn backward direction:\n");
+    for (c = t; c; c = c->p) printf("%d ", c->d);
+}
+
+int main() {
+    ins(1); ins(2); ins(3);
+    show();
+    return 0;
+}
+
+8.CIRCULAR LINKED LIST
+
+#include <stdio.h>
+int q[5], f = -1, r = -1;
+
+void enq(int x) {
+  if ((r + 1) % 5 == f) return;
+  if (f == -1) f = 0;
+  r = (r + 1) % 5;
+  q[r] = x;
+}
+
+void deq() {
+  if (f == -1) return;
+  if (f == r) f = r = -1;
+  else f = (f + 1) % 5;
+}
+
+void show() {
+  if (f == -1) return;
+  int i = f;
+  do {
+    printf("%d ", q[i]);
+    i = (i + 1) % 5;
+  } while (i != (r + 1) % 5);
+  printf("\n");
+}
+
+int main() {
+  enq(34); enq(22); enq(75); enq(99); enq(27);
+  printf("Before dequeue: "); show();
+  deq();
+  printf("After dequeue: "); show();
+}
+
+
+10.MERGE SORT
+
+#include <stdio.h>
+
+void merge(int a[], int l, int m, int h) {
+    int i = l, j = m + 1, k = 0, b[100];
+    while (i <= m && j <= h)
+        b[k++] = (a[i] < a[j]) ? a[i++] : a[j++];
+    while (i <= m) b[k++] = a[i++];
+    while (j <= h) b[k++] = a[j++];
+    for (i = l, j = 0; i <= h; i++, j++) a[i] = b[j];
+}
+
+void mergeSort(int a[], int l, int h) {
+    if (l < h) {
+        int m = (l + h) / 2;
+        mergeSort(a, l, m);
+        mergeSort(a, m + 1, h);
+        merge(a, l, m, h);
+    }
+}
+
+int main() {
+    int a[] = {9, 1, 4, 14, 4, 15, 6}, n = 7;
+    for (int i = 0; i < n; i++) printf("%d ", a[i]);
+    printf("\n");
+    mergeSort(a, 0, n - 1);
+    for (int i = 0; i < n; i++) printf("%d ", a[i]);
+    return 0;
+}
